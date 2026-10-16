@@ -1,9 +1,9 @@
 {
     "version":  1,
     "city":  {
-                 "name":  "沈阳",
-                 "latitude":  41.79222,
-                 "longitude":  123.43278
+                 "name":  "東京",
+                 "latitude":  35.6895,
+                 "longitude":  139.69171
              },
-    "updatedAt":  "2026-10-16T12:43:37.7421900Z"
+    "updatedAt":  "2026-10-16T12:43:50.3938202Z"
 }
