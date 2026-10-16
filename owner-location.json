@@ -1,0 +1,9 @@
+{
+    "version":  1,
+    "city":  {
+                 "name":  "沈阳",
+                 "latitude":  41.79222,
+                 "longitude":  123.43278
+             },
+    "updatedAt":  "2026-10-16T12:43:37.7421900Z"
+}
