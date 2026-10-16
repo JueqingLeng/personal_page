@@ -179,7 +179,18 @@ body[data-view="details"]>.scroll-frame{display:block}
 .beijing-date{display:block;font-size:10px;letter-spacing:.03em;margin-bottom:11px}
 .weather-row{display:flex;align-items:baseline;justify-content:space-between;gap:3px;font-size:10px;margin:5px 0;padding-inline:5px;line-height:1.5}.weather-row span:last-child{font-size:10px;color:var(--bronze)}
 .weather-source{display:inline-block;font-size:8px;opacity:.65;margin-top:5px}
-.daily-frog-wrap{margin:auto 0;position:relative}.daily-frog-wrap .frog-button{margin-top:15px}
+.daily-frog-wrap{margin:auto 0;position:relative;padding-top:44px}.daily-frog-wrap .frog-button{margin-top:15px}
+.weather-row[hidden],.frog-weather-rain[hidden]{display:none!important}
+.weather-locate{display:block;margin:7px auto 0;border:0;border-bottom:1px dotted #96704466;background:transparent;padding:2px;color:var(--muted);font-family:inherit;font-size:9px;line-height:1.5;cursor:pointer}
+.weather-locate:disabled{opacity:.6;cursor:wait}.weather-locate:focus-visible,.frog-weather:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+.weather-row>span:first-child{min-width:0;overflow-wrap:anywhere}.weather-row>span:last-child{flex-shrink:0}
+.frog-weather{display:block;position:absolute;z-index:5;top:0;left:50%;transform:translateX(-50%);width:62px;height:62px;transition:filter .2s;touch-action:manipulation;border-radius:50%}
+.frog-weather svg{width:100%;height:100%;display:block}.frog-weather:hover{filter:drop-shadow(0 2px 4px #a0814940)}
+.frog-weather-rain{position:absolute;z-index:4;top:46px;bottom:43px;left:24%;right:24%;pointer-events:none;overflow:hidden;mask-image:linear-gradient(transparent,#000 12%,#000 86%,transparent)}
+.frog-weather-rain i{position:absolute;top:-14px;left:var(--drop-x);width:2px;height:10px;border-radius:2px;background:#759eafa8;animation:frog-rain-fall .95s linear infinite;animation-delay:var(--drop-delay)}
+.frog-weather-rain.is-snow i{width:4px;height:4px;background:#b4cdcf;animation-duration:2s}
+@keyframes frog-rain-fall{from{transform:translate(8px,-14px)}to{transform:translate(-6px,180px)}}
+@media(prefers-reduced-motion:reduce){.frog-weather-rain i{animation:none;top:var(--drop-x);transform:none}}
 .frog-scene .prop{display:none}.frog-scene[data-activity="sleep"] .bed-prop,.frog-scene[data-activity="meal"] .meal-prop,.frog-scene[data-activity="study"] .study-prop,.frog-scene[data-activity="computer"] .computer-prop,.frog-scene[data-activity="game"] .game-prop{display:block}
 .frog-scene[data-activity="sleep"] .frog-figure{transform:translate(188px,25px) rotate(82deg) scale(.68);transform-origin:0 0}
 .frog-scene[data-activity="sleep"] .frog-eyes{display:none}.frog-closed-eyes{display:none}.frog-scene[data-activity="sleep"] .frog-closed-eyes{display:block}
@@ -657,8 +668,8 @@ body[data-view="details"]>.scroll-frame{display:block}
           <button class="frog-button" id="taichi-frog" type="button" aria-label="点击太极奶蛙，切换旗袍造型并播放一次铃声"><svg class="frog-stage" viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="190" rx="57" ry="6" fill="#827d4820"/><circle cx="100" cy="120" r="74" fill="none" stroke="#b6b39755" stroke-width=".7"/>${frogFigure('tai')}</svg><span class="frog-audio-status" id="ring-status" aria-live="polite"></span></button>
           <p class="frog-caption">一招一式，自在闲游。</p><p class="frog-hint">点一下，接个电话</p><button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false">音效：开</button></aside>
         <aside class="side-rail right-rail" aria-label="北京时间、天气与奶蛙日常"><div class="beijing-panel"><p class="beijing-label">北京时间 · BEIJING</p><time class="beijing-clock" id="beijing-clock"></time><span class="beijing-date" id="beijing-date"></span>
-          <p class="weather-row" title="今日中国辽宁省沈阳市天气"><span>今日 · 沈阳</span><span id="weather-shenyang">加载中…</span></p><p class="weather-row" title="今日中国安徽省阜阳市天气"><span>今日 · 阜阳</span><span id="weather-fuyang">加载中…</span></p><a class="weather-source" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">天气 · Open-Meteo</a></div>
-          <div class="daily-frog-wrap"><button class="frog-button" id="daily-frog" type="button"><svg class="frog-stage" viewBox="0 0 200 200" aria-hidden="true"><g class="frog-scene" id="right-scene" data-activity="study"><ellipse cx="100" cy="188" rx="72" ry="6" fill="#827d4820"/>
+          <p class="weather-row" id="weather-owner-row"><span id="weather-owner-label">我在 · 识别中</span><span id="weather-owner">加载中…</span></p><p class="weather-row" id="weather-visitor-row"><span id="weather-visitor-label">你在 · 定位中</span><span id="weather-visitor">识别城市…</span></p><button type="button" class="weather-locate" id="weather-locate">定位我的城市</button><a class="weather-source" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">天气 · Open-Meteo</a></div>
+          <div class="daily-frog-wrap"><a class="frog-weather" id="frog-weather" href="https://zoom.earth/" target="_blank" rel="noopener noreferrer" aria-label="查看 Zoom Earth 天气地图"></a><div class="frog-weather-rain" id="frog-weather-rain" aria-hidden="true" hidden><i style="--drop-x:8%;--drop-delay:0s"></i><i style="--drop-x:18%;--drop-delay:-0.19s"></i><i style="--drop-x:28%;--drop-delay:-0.38s"></i><i style="--drop-x:38%;--drop-delay:-0.5700000000000001s"></i><i style="--drop-x:48%;--drop-delay:-0.76s"></i><i style="--drop-x:58%;--drop-delay:-0.95s"></i><i style="--drop-x:68%;--drop-delay:-1.1400000000000001s"></i><i style="--drop-x:78%;--drop-delay:-1.33s"></i><i style="--drop-x:88%;--drop-delay:-1.52s"></i></div><button class="frog-button" id="daily-frog" type="button"><svg class="frog-stage" viewBox="0 0 200 200" aria-hidden="true"><g class="frog-scene" id="right-scene" data-activity="study"><ellipse cx="100" cy="188" rx="72" ry="6" fill="#827d4820"/>
           <g class="prop bed-prop"><path d="M15 126 H185 V178 H15Z" fill="#b78b63"/><path d="M20 105 V187 M183 111 V187" stroke="#896444" stroke-width="6" stroke-linecap="round"/><rect x="25" y="118" width="153" height="28" rx="8" fill="#f1e7cb"/><ellipse cx="152" cy="110" rx="28" ry="12" fill="#f8edcc"/><text x="25" y="57" fill="#74938b" font-size="16">Z z z</text></g>
           ${frogFigure('daily')}
           <g class="prop bed-prop blanket-prop"><path d="M24 100 Q58 72 141 76 L149 88 Q139 109 146 143 H24Z" fill="#779d92" stroke="#4f7b70"/><path d="M35 108 H136 M40 124 H137" stroke="#b3cdc0" stroke-width="1.5" opacity=".7"/></g>
@@ -674,7 +685,7 @@ body[data-view="details"]>.scroll-frame{display:block}
         updateBeijing();setInterval(updateBeijing,1000);
         window.addEventListener('hashchange',()=>{if(document.body.dataset.view==='details')refreshWeather();else stopCompanionAudio()});
         document.addEventListener('visibilitychange',()=>{if(document.hidden)stopCompanionAudio();else{updateBeijing();refreshWeather()}});
-        refreshWeather();setInterval(refreshWeather,1800000);
+        setupWeather();refreshWeather();setInterval(refreshWeather,1800000);
       }
       function activityAt(minutes){
         if(minutes<390||minutes>=1380)return {id:'sleep',label:'23:00—06:30 · 在床上睡觉'};
@@ -728,19 +739,6 @@ body[data-view="details"]>.scroll-frame{display:block}
         }).catch(()=>{$('note-status').textContent='请再点击鳞片播放声音'});
       }
       function setupScales(){document.querySelectorAll('.jade-scale').forEach((scale,index)=>{scale.addEventListener('click',event=>{event.stopPropagation();playScale(index,scale)});scale.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();playScale(index,scale)}})})}
-      let weatherBusy=false,weatherUpdatedAt=0,weatherDay='';
-      const weatherWords=code=>code===0?'晴':code===1?'晴间多云':code===2?'多云':code===3?'阴':code<=48?'雾':code<=67?'雨':code<=77?'雪':code<=82?'阵雨':code<=86?'阵雪':'雷雨';
-      function showWeather(data){['shenyang','fuyang'].forEach((city,i)=>{const daily=data[i]?.daily;if(!daily||!Number.isFinite(daily.temperature_2m_min?.[0])||!Number.isFinite(daily.temperature_2m_max?.[0]))throw new Error('Incomplete weather');$( 'weather-'+city).textContent=weatherWords(daily.weather_code[0])+' '+Math.round(daily.temperature_2m_min[0])+'–'+Math.round(daily.temperature_2m_max[0])+'℃'})}
-      async function refreshWeather(){
-        if(document.body.dataset.view!=='details'||weatherBusy||document.hidden)return;
-        const today=beijingISO.format(new Date());
-        if(weatherDay!==today){weatherDay=today;weatherUpdatedAt=0;$('weather-shenyang').textContent='加载中…';$('weather-fuyang').textContent='加载中…'}
-        try{const cached=JSON.parse(localStorage.getItem('leng-weather-v1'));if(cached?.day===today){showWeather(cached.data);weatherUpdatedAt=cached.time}}catch{}
-        if(Date.now()-weatherUpdatedAt<1800000)return;
-        weatherBusy=true;
-        try{const response=await fetch('https://api.open-meteo.com/v1/forecast?latitude=41.8057,32.8901&longitude=123.4315,115.814&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&forecast_days=1',{signal:AbortSignal.timeout(12000)});if(!response.ok)throw new Error('Weather unavailable');const data=await response.json();if(!Array.isArray(data)||data.some(item=>item.daily?.time?.[0]!==today))throw new Error('Weather date mismatch');showWeather(data);weatherUpdatedAt=Date.now();try{localStorage.setItem('leng-weather-v1',JSON.stringify({day:today,time:weatherUpdatedAt,data}))}catch{}
-        }catch{if(!weatherUpdatedAt){$('weather-shenyang').textContent='天气暂不可用';$('weather-fuyang').textContent='天气暂不可用'}}finally{weatherBusy=false}
-      }
       function stageArt(){return `<svg class="stage-art" viewBox="0 0 300 300" role="img" aria-label="红色帷幕与麦克风舞台"><defs><radialGradient id="stage-light"><stop stop-color="#d5c29a"/><stop offset="1" stop-color="#282e34"/></radialGradient></defs><rect width="300" height="300" fill="#242b30"/><path d="M30 20 L150 257 L270 20Z" fill="url(#stage-light)" opacity=".4"/><ellipse cx="150" cy="227" rx="123" ry="33" fill="#a38057"/><path d="M0 0 H70 Q35 77 54 159 L0 187Z M300 0 H230 Q265 77 246 159 L300 187Z" fill="#813b38"/><path d="M22 0 Q10 82 31 169 M44 0 Q23 63 49 151 M278 0 Q290 82 269 169 M256 0 Q277 63 251 151" fill="none" stroke="#a95748" stroke-width="6"/><rect width="300" height="25" fill="#76312e"/><path d="M150 140 V216 M123 221 H177" stroke="#ded4b8" stroke-width="4" stroke-linecap="round"/><rect x="138" y="102" width="24" height="49" rx="12" fill="#d9d6c3"/><path d="M132 134 Q132 159 150 159 Q168 159 168 134" fill="none" stroke="#ded4b8" stroke-width="3"/></svg>`}
       function renderInterestGallery(){
         const list=$('interest-list');list.replaceChildren();list.className='interest-gallery';
@@ -763,6 +761,158 @@ body[data-view="details"]>.scroll-frame{display:block}
           const file=input.files?.[0];if(!file)return;const audio=input.dataset.artwork==='ringtoneAudio';
           if(file.size>(audio?8:5)*1024*1024||!(audio?/^audio\//:/^image\//).test(file.type)){$('status').textContent=audio?'请选择 8MB 以内的音频。':'请选择 5MB 以内的图片。';input.value='';return}
           try{const reader=new FileReader();const data=await new Promise((resolve,reject)=>{reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file)});config[input.dataset.artwork]=data;render();save();$('status').textContent='素材已添加，导出网页时会一并保存。'}catch{$('status').textContent='素材无法读取，请重新选择。'}
+        }));
+      }
+
+      // City-level locations only. No visitor coordinates are sent to this site's owner.
+      let ownerWeatherCity=null,ownerLocationPromise=null,ownerLocationCheckedAt=0,ownerLocationUpdatedAt='';
+      let visitorWeatherCity=null,visitorLocationBusy=false,weatherDay='',weatherLocationAttempted=false;
+      let weatherRows={owner:null,visitor:null},visitorLocationVersion=0;
+      const weatherRequests=new Map(),weatherMemory=new Map();
+      const weatherWords=code=>code===0?'晴':code===1?'晴间多云':code===2?'多云':code===3?'阴':[45,48].includes(code)?'雾':[51,53,55,56,57,61,63,65,66,67].includes(code)?'雨':[71,73,75,77].includes(code)?'雪':[80,81,82].includes(code)?'阵雨':[85,86].includes(code)?'阵雪':[95,96,99].includes(code)?'雷雨':'天气未知';
+      const weatherKind=code=>code===0?'sun':code===1||code===2?'partly':code===3?'cloud':[45,48].includes(code)?'fog':[51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)?'rain':[71,73,75,77,85,86].includes(code)?'snow':[95,96,99].includes(code)?'storm':'unknown';
+      const weatherCityKey=city=>Number(city.latitude).toFixed(2)+','+Number(city.longitude).toFixed(2);
+      const sameWeatherCity=(a,b)=>a&&b&&(weatherCityKey(a)===weatherCityKey(b)||(Math.hypot(a.latitude-b.latitude,a.longitude-b.longitude)<.5&&a.name.replace(/市$/,'')===b.name.replace(/市$/,'')));
+      const cityLabel=city=>city.name.replace(/市$/,'');
+      const weatherTimeout=ms=>AbortSignal.timeout(ms);
+      async function weatherJSON(url){const response=await fetch(url,{signal:weatherTimeout(10000)});if(!response.ok)throw new Error('Weather service unavailable');return response.json()}
+      function validWeatherCity(city){return city&&typeof city.name==='string'&&city.name.trim()&&Number.isFinite(city.latitude)&&Number.isFinite(city.longitude)&&Math.abs(city.latitude)<=90&&Math.abs(city.longitude)<=180}
+      function cityFromIP(data){
+        if(data.success===false||data.error)throw new Error('City lookup failed');
+        const latitude=Number(data.latitude),longitude=Number(data.longitude),name=String(data.city||'').trim();
+        const city={name,latitude,longitude};if(!validWeatherCity(city))throw new Error('No city');return city;
+      }
+      async function localizeWeatherCity(city){
+        // The geocoder provides the city's centre, rather than the visitor's precise position.
+        try{const data=await weatherJSON('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city.name)+'&count=10&language=zh&format=json');
+          const candidates=(data.results||[]).filter(item=>Number.isFinite(item.latitude)&&Number.isFinite(item.longitude));
+          candidates.sort((a,b)=>Math.hypot(a.latitude-city.latitude,a.longitude-city.longitude)-Math.hypot(b.latitude-city.latitude,b.longitude-city.longitude));
+          const match=candidates[0];if(match&&Math.hypot(match.latitude-city.latitude,match.longitude-city.longitude)<1)return {name:match.name,latitude:match.latitude,longitude:match.longitude};
+        }catch{}
+        return {name:city.name,latitude:Math.round(city.latitude*100)/100,longitude:Math.round(city.longitude*100)/100};
+      }
+      function setupWeather(){
+        $('weather-locate').addEventListener('click',locateVisitorWeather);
+        $('weather-owner-label').textContent='我在 · 识别中';
+        updateWeatherIcon(null);
+      }
+      async function loadOwnerWeatherCity(){
+        if(ownerLocationCheckedAt&&Date.now()-ownerLocationCheckedAt<300000)return;
+        if(ownerLocationPromise)return ownerLocationPromise;
+        ownerLocationPromise=(async()=>{
+          try{
+            const url=location.protocol==='file:'?'https://raw.githubusercontent.com/JueqingLeng/personal-page/main/owner-location.json':new URL('owner-location.json',location.href).href;
+            const response=await fetch(url,{cache:'no-store',signal:weatherTimeout(10000)});
+            if(!response.ok)throw new Error('Owner location not yet synced');
+            const data=await response.json(),timestamp=Date.parse(data.updatedAt);
+            if(!validWeatherCity(data.city)||!Number.isFinite(timestamp)||timestamp>Date.now()+300000)throw new Error('Invalid owner location');
+            if(!ownerWeatherCity||weatherCityKey(ownerWeatherCity)!==weatherCityKey(data.city))weatherRows.owner=null;
+            ownerWeatherCity=data.city;ownerLocationUpdatedAt=data.updatedAt;
+          }catch{if(!ownerWeatherCity)$('weather-owner').textContent='城市尚未同步'}
+          finally{ownerLocationCheckedAt=Date.now();ownerLocationPromise=null;renderWeatherRows()}
+        })();
+        return ownerLocationPromise;
+      }
+      async function detectVisitorWeather(){
+        if(visitorLocationBusy||weatherLocationAttempted)return;
+        weatherLocationAttempted=true;visitorLocationBusy=true;
+        const version=visitorLocationVersion;
+        try{
+          let city=null;
+          try{const cached=JSON.parse(sessionStorage.getItem('leng-visitor-city-v2'));if(cached&&Date.now()-cached.time<1800000&&validWeatherCity(cached.city))city=cached.city}catch{}
+          if(!city){
+            for(const endpoint of ['https://ipapi.co/json/','https://ipwho.is/']){
+              try{city=cityFromIP(await weatherJSON(endpoint));break}catch{}
+            }
+            if(!city)throw new Error('Location unavailable');
+            city=await localizeWeatherCity(city);
+          }
+          if(version!==visitorLocationVersion)return;
+          setVisitorWeatherCity(city);
+        }catch{if(version===visitorLocationVersion){$('weather-visitor').textContent='点击下方定位';$('weather-visitor-row').hidden=false;$('weather-visitor-label').textContent='你在 · 未定位'}}
+        finally{visitorLocationBusy=false}
+      }
+      function setVisitorWeatherCity(city){
+        visitorWeatherCity=city;weatherRows.visitor=null;
+        try{sessionStorage.setItem('leng-visitor-city-v2',JSON.stringify({city,time:Date.now()}))}catch{}
+        $('weather-visitor-label').textContent='你在 · '+cityLabel(city);$('weather-visitor').textContent='加载中…';
+        $('weather-locate').textContent='更新我的城市';$('weather-locate').disabled=false;
+        renderWeatherRows();refreshWeather();
+      }
+      async function locateVisitorWeather(){
+        if(!navigator.geolocation){$('weather-visitor').textContent='浏览器不支持定位';return}
+        const version=++visitorLocationVersion;
+        $('weather-locate').disabled=true;$('weather-locate').textContent='正在定位…';
+        try{
+          const position=await new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:false,timeout:10000,maximumAge:300000}));
+          const data=await weatherJSON('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&localityLanguage=zh');
+          const name=data.city||data.locality;if(!name)throw new Error('No city');
+          const city=await localizeWeatherCity({name,latitude:position.coords.latitude,longitude:position.coords.longitude});
+          if(version===visitorLocationVersion)setVisitorWeatherCity(city);
+        }catch(error){if(version===visitorLocationVersion){$('weather-locate').textContent=error.code===1?'定位未授权 · 重试':'定位失败 · 重试';$('weather-locate').disabled=false}}
+      }
+      function validWeatherSnapshot(data){return data&&Number.isFinite(data.code)&&Number.isFinite(data.temperature)&&Number.isFinite(data.low)&&Number.isFinite(data.high)&&Number.isFinite(data.time)&&Date.now()-data.time>=0&&Date.now()-data.time<1800000}
+      async function loadCityWeather(city){
+        const key=weatherCityKey(city),cacheKey='leng-city-weather-v2:'+key;
+        let cached=weatherMemory.get(key);
+        if(!cached)try{cached=JSON.parse(localStorage.getItem(cacheKey))}catch{}
+        if(validWeatherSnapshot(cached)){weatherMemory.set(key,cached);return {...cached,city}}
+        if(!weatherRequests.has(key)){
+          const request=(async()=>{
+            const data=await weatherJSON('https://api.open-meteo.com/v1/forecast?latitude='+city.latitude+'&longitude='+city.longitude+'&current=weather_code,temperature_2m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1');
+            const snapshot={code:data.current?.weather_code,temperature:data.current?.temperature_2m,isDay:data.current?.is_day!==0,low:data.daily?.temperature_2m_min?.[0],high:data.daily?.temperature_2m_max?.[0],time:Date.now()};
+            if(!validWeatherSnapshot(snapshot))throw new Error('Incomplete weather');
+            weatherMemory.set(key,snapshot);try{localStorage.setItem(cacheKey,JSON.stringify(snapshot))}catch{}return snapshot;
+          })();
+          weatherRequests.set(key,request);
+          request.finally(()=>weatherRequests.delete(key)).catch(()=>{});
+        }
+        return {...await weatherRequests.get(key),city};
+      }
+      function renderWeatherRows(){
+        const owner=weatherRows.owner,visitor=weatherRows.visitor;
+        const duplicate=sameWeatherCity(ownerWeatherCity,visitorWeatherCity)||Boolean(owner&&visitor&&weatherWords(owner.code)===weatherWords(visitor.code));
+        $('weather-visitor-row').hidden=duplicate;
+        $('weather-owner-label').textContent=duplicate?'我和你 · '+(sameWeatherCity(ownerWeatherCity,visitorWeatherCity)?cityLabel(ownerWeatherCity):cityLabel(ownerWeatherCity)+' / '+cityLabel(visitorWeatherCity)):ownerWeatherCity?(Date.now()-Date.parse(ownerLocationUpdatedAt)>129600000?'最近在 · ':'我在 · ')+cityLabel(ownerWeatherCity):'我在 · 待同步';
+        for(const [role,snapshot] of Object.entries(weatherRows)){
+          if(!snapshot){$('weather-'+role+'-row').title='';continue}
+          $('weather-'+role).textContent=weatherWords(snapshot.code)+' '+Math.round(snapshot.low)+'–'+Math.round(snapshot.high)+'℃';
+          $('weather-'+role+'-row').title=snapshot.city.name+' · 当前 '+Math.round(snapshot.temperature)+'℃ · '+weatherWords(snapshot.code);
+        }
+        if(duplicate&&visitor)$('weather-owner-row').title+='；'+visitor.city.name+' · 当前 '+Math.round(visitor.temperature)+'℃ · 今日 '+Math.round(visitor.low)+'–'+Math.round(visitor.high)+'℃';
+        if(ownerLocationUpdatedAt)$('weather-owner-row').title+='；城市同步于 '+new Date(ownerLocationUpdatedAt).toLocaleString('zh-CN');
+        updateWeatherIcon(visitor||owner);
+      }
+      function weatherIconMarkup(kind,isDay){
+        const sun='<g class="weather-sun"><circle cx="32" cy="28" r="12" fill="#dcab48"/><path d="M32 7V2 M32 54v-5 M11 28H6 M58 28h-5 M17 13l-4-4 M51 47l-4-4 M47 13l4-4 M17 43l-4 4" stroke="#ca943a" stroke-width="2.5" stroke-linecap="round"/></g>';
+        const cloud='<path d="M18 46C3 45 4 27 16 25C18 9 41 8 47 23C62 20 69 43 54 46Z" fill="'+(['rain','storm'].includes(kind)?'#687b7d':'#c2cec5')+'" stroke="#778e87" stroke-width="1.4"/>';
+        const moon='<path d="M41 8A21 21 0 1 0 54 43A24 24 0 0 1 41 8Z" fill="#d4c28e" stroke="#a89868"/>';
+        let content=kind==='sun'?(isDay?sun:moon):kind==='partly'?'<g transform="translate(-5 -4) scale(.8)">'+(isDay?sun:moon)+'</g>'+cloud:kind==='unknown'?'<circle cx="34" cy="29" r="20" fill="none" stroke="#9a9e8b" stroke-dasharray="3 4"/><text x="34" y="37" text-anchor="middle" font-size="25" fill="#8d907e">?</text>':cloud;
+        if(kind==='rain')content+='<path d="M23 52l-4 7 M38 52l-4 7 M53 52l-4 7" stroke="#799fb2" stroke-width="2.5" stroke-linecap="round"/>';
+        if(kind==='storm')content+='<path d="M37 43L27 57h10l-5 10 20-19H39l6-5Z" fill="#d7b357"/>';
+        if(kind==='snow')content+='<path d="M23 51v10 M18 56h10 M43 51v10 M38 56h10" stroke="#94b5b4" stroke-width="2"/>';
+        if(kind==='fog')content+='<path d="M12 52h45 M17 59h35" stroke="#a0b3a8" stroke-width="3" stroke-linecap="round"/>';
+        return '<svg viewBox="0 0 72 72" aria-hidden="true">'+content+'</svg>';
+      }
+      function updateWeatherIcon(snapshot){
+        const kind=snapshot?weatherKind(snapshot.code):'unknown',link=$('frog-weather');
+        if(link.dataset.kind!==kind||link.dataset.day!==String(snapshot?.isDay))link.innerHTML=weatherIconMarkup(kind,snapshot?.isDay!==false);
+        link.dataset.kind=kind;link.dataset.day=String(snapshot?.isDay);
+        link.title=link.ariaLabel=(snapshot?snapshot.city.name+' · '+weatherWords(snapshot.code)+' · '+Math.round(snapshot.temperature)+'℃':'天气暂不可用')+'；点击查看 Zoom Earth';
+        $('frog-weather-rain').hidden=!['rain','storm'].includes(kind);
+        $('frog-weather-rain').classList.toggle('is-snow',kind==='snow');
+        if(kind==='snow')$('frog-weather-rain').hidden=false;
+      }
+      async function refreshWeather(){
+        if(document.body.dataset.view!=='details'||document.hidden)return;
+        weatherDay=beijingISO.format(new Date());
+        if(!weatherLocationAttempted)void detectVisitorWeather();
+        await loadOwnerWeatherCity();
+        const targets=[...(ownerWeatherCity?[['owner',ownerWeatherCity]]:[]),...(visitorWeatherCity?[['visitor',visitorWeatherCity]]:[])];
+        await Promise.allSettled(targets.map(async([role,city])=>{
+          try{const snapshot=await loadCityWeather(city);if(role==='visitor'&&city!==visitorWeatherCity||role==='owner'&&city!==ownerWeatherCity)return;weatherRows[role]=snapshot}
+          catch{if(!validWeatherSnapshot(weatherRows[role])){weatherRows[role]=null;$('weather-'+role).textContent='天气暂不可用'}}
+          renderWeatherRows();
         }));
       }
 
