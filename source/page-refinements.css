@@ -1,0 +1,94 @@
+/* A restrained type hierarchy for the opening chapter, including authored long text. */
+#story .life-heading-line { font-size:12px;letter-spacing:.1em;padding-bottom:24px; }
+#story .life-name-mark { width:32px;height:36px;font-size:24px; }
+#story .life-preface-grid { grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:40px;padding:40px 0;align-items:start; }
+#story .life-section-label { font-size:12px;line-height:1.75;letter-spacing:.08em;margin-bottom:16px; }
+#story .life-heading h2 { font-size:clamp(28px,2.8vw,40px);line-height:1.5;font-weight:500;letter-spacing:.02em;text-wrap:pretty; }
+#story .life-flourish { font-size:20px;margin-top:24px; }
+#story .life-lead { font-size:18px;line-height:1.9;margin-bottom:24px; }
+#story .life-prose { font-size:16px;line-height:2; }
+#story .life-prose p { margin-bottom:24px; }
+#story .life-prose p:last-child { margin-bottom:0; }
+#story .life-signature { gap:16px;margin-top:24px;padding-top:16px;flex-wrap:wrap; }
+#story .life-signature span:first-child { font-size:20px;letter-spacing:.12em; }
+#story .life-signature span:last-child { font-size:12px;line-height:1.75;letter-spacing:.04em; }
+#story .life-chapter-nav { font-size:16px;gap:12px;padding:24px 0 0; }
+#story .life-chapter-nav a { display:block; }
+#story .life-chapter-nav a span,#story .life-chapter-nav a i { font-size:12px;line-height:1.75; }
+#story .life-chapter-nav a i { margin-top:8px; }
+
+/* The afterword and curiosity line share the interests panel instead of a new chapter. */
+#interests .life-afterword { margin:32px 0 0;padding:32px 0 0;border-top:1px solid var(--life-rule); }
+#interests .life-afterword .life-section-label { font-size:12px;margin-bottom:16px; }
+#interests .life-afterword-grid { grid-template-columns:minmax(0,1fr) 160px;gap:24px;align-items:center; }
+#interests .life-afterword h2 { font-size:24px;line-height:1.6;margin:0 0 16px;letter-spacing:.06em; }
+#interests .life-landscape { width:100%;max-width:160px;margin:0;opacity:.5; }
+#interests .life-contact-links { gap:16px;margin-top:24px;flex-wrap:wrap; }
+#interests .life-source-note { margin:24px 0 0;font-size:12px;line-height:1.8; }
+#interests .detail-footer,body[data-home-background] #interests .detail-footer {
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;
+  padding:24px 0 0;margin-top:24px;border-top:1px solid var(--life-rule);
+  border-radius:0;background:transparent;font-size:12px;line-height:1.8;
+}
+/* Reserve only the space needed by the fixed reading controls. */
+.detail-content { padding-bottom:88px; }
+
+/* Glass is the default control treatment; posters and jade links retain their artwork. */
+body[data-button-color=glass] :is(.drawer button,.rail-profile-close,#interests .life-contact-links a) {
+  background:var(--control-fill);color:var(--control-ink);border:1px solid var(--control-line);
+  border-radius:8px;min-height:44px;padding:8px 12px;
+  backdrop-filter:blur(24px) saturate(125%);-webkit-backdrop-filter:blur(24px) saturate(125%);
+}
+body[data-button-color=glass] .homepage-settings .settings-tabs button { background:var(--control-fill);color:var(--text); }
+body[data-button-color=glass] .life-reading-nav { background:var(--floating-glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px); }
+body[data-button-color=glass] .life-reading-nav a[aria-current=location] { color:var(--text);box-shadow:inset 0 -2px var(--bronze); }
+#interests .life-contact-links a { display:inline-flex;align-items:center;text-decoration:none; }
+
+/* Low-contrast reflected light follows the pointer without covering hit targets. */
+.glass-light-static { position:relative; }
+.has-glass-light::after {
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:radial-gradient(240px circle at var(--glass-light-x,50%) var(--glass-light-y,50%),#ffffff10, #ffffff05 40%,transparent 76%);
+  opacity:0;transition:opacity .24s ease;
+}
+.has-glass-light.is-glass-lit::after { opacity:1; }
+@media(hover:none),(pointer:coarse) { .has-glass-light::after { display:none; } }
+@media(prefers-reduced-motion:reduce) { .has-glass-light::after { transition:none; } }
+
+/* A single gentle arrival: the wrist and gaze follow the reaching finger. */
+.side-pavilion.is-adam .adam-head { transform-box:fill-box;transform-origin:50% 85%;animation:adam-head-settle .7s ease-out both; }
+.side-pavilion.is-adam #daily-frog .adam-head { animation-name:adam-head-settle-right; }
+.side-pavilion.is-adam .left-rail .adam-reaching-arm { animation:adam-hand-left .8s cubic-bezier(.22,.7,.2,1) both; }
+.side-pavilion.is-adam #daily-frog .adam-reaching-arm { animation:adam-hand-right .8s cubic-bezier(.22,.7,.2,1) both; }
+@keyframes adam-head-settle { from { transform:rotate(-8deg); } to { transform:rotate(0deg); } }
+@keyframes adam-head-settle-right { from { transform:rotate(8deg); } to { transform:rotate(0deg); } }
+@keyframes adam-hand-left { from { transform:rotate(-10deg); } to { transform:rotate(0deg); } }
+@keyframes adam-hand-right { from { transform:rotate(-10deg); } to { transform:rotate(0deg); } }
+
+/* The head rests upright on its pillow; the quilt covers shoulders through toes. */
+.sleep-head { display:none; }
+.frog-scene[data-activity=sleep] .frog-figure { display:none; }
+.frog-scene[data-activity=sleep] .sleep-head { display:block;transform-box:fill-box;transform-origin:center;animation:head-breathe 3.6s ease-in-out infinite; }
+.frog-button.is-turning .frog-scene[data-activity=sleep] .sleep-head { animation:head-turn 1.1s ease-in-out both; }
+.frog-button.is-laughing .sleep-head,.side-pavilion.is-adam .sleep-head { display:none; }
+@keyframes head-breathe { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-.6px); } }
+@keyframes head-turn { 0%,100% { transform:scaleX(1); } 50% { transform:scaleX(.03); } }
+@media(max-width:1024px) and (min-width:761px) { #story .life-preface-grid { gap:32px; } }
+@media(max-width:760px) {
+  #story .life-preface-grid { grid-template-columns:minmax(0,1fr);gap:24px;padding:32px 0; }
+  #story .life-heading h2 { font-size:32px;line-height:1.5; }
+  #story .life-heading-line { font-size:12px;letter-spacing:.05em; }
+  #story .life-lead { font-size:18px; }
+  #story .life-prose { font-size:16px;line-height:1.9; }
+  #story .life-chapter-nav { gap:8px; }
+  #story .life-chapter-nav a { font-size:16px; }
+  #interests .life-afterword { margin-top:24px;padding-top:24px; }
+  #interests .life-afterword-grid { grid-template-columns:minmax(0,1fr);gap:0; }
+  #interests .life-landscape { display:none; }
+  #interests .life-afterword h2 { font-size:24px; }
+  .detail-content { padding-bottom:104px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .side-pavilion.is-adam .adam-head,.side-pavilion.is-adam .adam-reaching-arm,
+  .frog-scene[data-activity=sleep] .sleep-head,.frog-button.is-turning .frog-scene[data-activity=sleep] .sleep-head { animation:none; }
+}

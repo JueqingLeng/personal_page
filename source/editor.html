@@ -1,0 +1,24 @@
+      <fieldset class="life-editor-section"><legend>个人经历 · 长文编辑</legend>
+        <p class="hint">选择一段经历填写；修改会保存到此浏览器。发布给所有人前，请导出完整网页并上传 index.html。</p>
+        <label for="life-headline-input">卷首标题</label><textarea id="life-headline-input" name="lifeHeadline" rows="2" maxlength="100"></textarea>
+        <label for="life-lead-input">卷首引言</label><textarea id="life-lead-input" name="lifeLead" rows="3" maxlength="1500"></textarea>
+        <label for="life-about-input">关于我的长文（空行分段）</label><textarea id="life-about-input" name="lifeAbout" rows="7" maxlength="30000" placeholder="从你的成长、性格、选择和热爱写起。"></textarea>
+        <label for="journey-intro-input">经历区引言</label><textarea id="journey-intro-input" name="journeyIntro" rows="3" maxlength="1500"></textarea>
+        <div class="life-editor-divider"></div>
+        <label for="life-entry-select">正在编辑的经历</label><select id="life-entry-select"></select>
+        <div class="life-editor-actions"><button type="button" id="life-add">＋ 新增经历</button><button type="button" id="life-up">上移 ↑</button><button type="button" id="life-down">下移 ↓</button><button type="button" id="life-delete">删除</button><button type="button" id="life-undo" hidden>撤销删除</button></div>
+        <div id="life-entry-fields">
+          <label for="life-title-input">经历标题</label><input id="life-title-input" data-life-field="title" maxlength="140" placeholder="例如：第一次独立完成一个小项目">
+          <div class="life-editor-columns"><div><label for="life-period-input">时间（自由填写）</label><input id="life-period-input" data-life-field="period" maxlength="80" placeholder="例如：2025.09 — 至今"></div><div><label for="life-kind-input">类型</label><select id="life-kind-input" data-life-field="kind"><option value="education">学习</option><option value="practice">实践</option><option value="life">生活</option></select></div></div>
+          <label for="life-place-input">学校、组织、地点或身份（可留空）</label><input id="life-place-input" data-life-field="place" maxlength="200">
+          <label for="life-summary-input">简短引言</label><textarea id="life-summary-input" data-life-field="summary" rows="3" maxlength="2000" placeholder="这一段经历最想让人记住的事。"></textarea>
+          <label for="life-body-input">完整经历（空行分段，可写长文）</label><textarea id="life-body-input" data-life-field="body" rows="10" maxlength="30000" placeholder="当时的背景与目标……&#10;&#10;你做了什么、遇到什么困难……&#10;&#10;最后的结果与变化……"></textarea>
+          <label for="life-reflection-input">回望与收获（可留空）</label><textarea id="life-reflection-input" data-life-field="reflection" rows="3" maxlength="5000"></textarea>
+          <label for="life-tags-input">关键词（逗号分隔，可留空）</label><input id="life-tags-input" data-life-field="tags" maxlength="300" placeholder="独立开发，学习记录，第一次">
+          <label for="life-link-input">相关作品链接（可留空）</label><input id="life-link-input" data-life-field="link" type="url" maxlength="1500" placeholder="https://…"><p id="life-link-error" class="validation" role="status"></p>
+          <label class="life-template-label"><input id="life-template-input" type="checkbox" data-life-field="template">这是一条待填写模板</label>
+        </div>
+        <label for="life-next-input">写给下一程（空行分段，可留空隐藏）</label><textarea id="life-next-input" name="lifeNext" rows="5" maxlength="15000"></textarea>
+        <div class="life-editor-actions"><button type="button" id="life-export-data">备份经历 JSON ↓</button><button type="button" id="life-import-data">导入经历 JSON ↑</button></div><input id="life-data-file" type="file" accept="application/json,.json" hidden>
+        <p class="hint" id="life-edit-status" role="status" aria-live="polite"></p>
+      </fieldset>
